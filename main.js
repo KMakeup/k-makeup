@@ -21,8 +21,8 @@ class SiteManager {
     constructor() {
         // Éléments du menu mobile
         this.menuButton = utils.select('.menu-button');
-        this.nav = utils.select('nav');  // Changé pour sélectionner directement le nav
-        this.menuOpen = false;  // État du menu
+        this.nav = utils.select('nav');
+        this.menuOpen = false;
         
         // Options pour l'Intersection Observer
         this.observerOptions = {
@@ -44,6 +44,7 @@ class SiteManager {
         this.initFontsLoading();
         this.checkReduceMotion();
         this.updateCopyrightYear();
+        this.initPrestations(); // Ajout de l'initialisation des prestations
     }
     
     // Menu mobile
@@ -53,8 +54,6 @@ class SiteManager {
                 this.menuOpen = !this.menuOpen;
                 this.menuButton.classList.toggle('is-open');
                 this.nav.classList.toggle('is-open');
-                
-                // Optionnel : empêcher le défilement du body quand le menu est ouvert
                 document.body.style.overflow = this.menuOpen ? 'hidden' : '';
             });
 
@@ -72,16 +71,38 @@ class SiteManager {
             });
         }
     }
-
-    // Mise à jour de l'année dans le copyright
-    updateCopyrightYear() {
-        const yearElement = utils.select('.current-year');
-        if (yearElement) {
-            yearElement.textContent = new Date().getFullYear();
-        }
-    }
     
-    // [Le reste des méthodes reste inchangé...]
+    // Section prestations
+    initPrestations() {
+        const prestationCards = utils.selectAll('.prestation-card');
+        if (!prestationCards.length) return;
+
+        // Animation au scroll des cartes
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                threshold: 0.1,
+                rootMargin: '50px'
+            }
+        );
+
+        prestationCards.forEach(card => observer.observe(card));
+
+        // Gestion des erreurs d'images
+        utils.selectAll('.prestation-image').forEach(img => {
+            utils.addEvent(img, 'error', function() {
+                this.src = '/api/placeholder/400/300';
+            });
+        });
+    }
+
     initScrollAnimations() {
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
@@ -152,7 +173,6 @@ class SiteManager {
         utils.addEvent(window, 'resize', () => {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => {
-                // Réinitialiser l'état du menu si nécessaire sur desktop
                 if (window.innerWidth > 991 && this.menuOpen) {
                     this.menuButton.classList.remove('is-open');
                     this.nav.classList.remove('is-open');
@@ -174,47 +194,22 @@ class SiteManager {
             document.documentElement.classList.add('reduce-motion');
         }
     }
+    
+    updateCopyrightYear() {
+        const yearElements = utils.selectAll('.current-year');
+        yearElements.forEach(element => {
+            if (element) {
+                element.textContent = new Date().getFullYear();
+            }
+        });
+    }
 }
 
-// Une seule initialisation
+// Initialisation
 document.addEventListener('DOMContentLoaded', () => {
     new SiteManager();
-        new PrestationsManager();
 
-const observer = new IntersectionObserver(
-        (entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        },
-        {
-            threshold: 0.1,
-            rootMargin: '50px'
-        }
-    );
-
-    // Observe chaque carte de prestation
-    document.querySelectorAll('.prestation-card').forEach(card => {
-        observer.observe(card);
-    });
-
-    // Gestion des erreurs de chargement d'images
-    document.querySelectorAll('.prestation-image').forEach(img => {
-        img.addEventListener('error', function() {
-            this.src = '/api/placeholder/400/300';
-        });
-    });
-    
-    const yearElements = document.querySelectorAll('.current-year');
-    yearElements.forEach(element => {
-        if (element) {
-            element.textContent = new Date().getFullYear();
-        }
-    });
-
+    // Gestion du bouton d'impression pour les pages légales
     const printButtons = document.querySelectorAll('.print-legal');
     printButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -222,4 +217,3 @@ const observer = new IntersectionObserver(
         });
     });
 });
-
