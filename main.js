@@ -154,3 +154,11 @@ class SiteManager {
 document.addEventListener('DOMContentLoaded', () => {
     new SiteManager();
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Mise à jour de l'année en cours
+    const yearElement = document.querySelector('.current-year');
+    if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+    }
+});
