@@ -711,3 +711,212 @@ body {
     white-space: nowrap;
     border: 0;
 }
+/* Conteneur des pages légales */
+.cgv-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background-color: #FFFFFF;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.cgv-content {
+    font-family: 'Nunito', sans-serif;
+    color: #3D3635;
+}
+
+.cgv-title {
+    font-family: 'Poiret One', cursive;
+    font-size: 2.5em;
+    border-bottom: 2px solid #A0785A;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+/* Informations entreprise */
+.business-info {
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+.business-name {
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.business-info a {
+    color: #A0785A;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.business-info a:hover {
+    color: #3D3635;
+    border-bottom-color: #3D3635;
+}
+
+/* Sections CGV */
+.cgv-section {
+    margin-bottom: 40px;
+}
+
+.cgv-section h2 {
+    font-family: 'Poiret One', cursive;
+    font-size: 1.8em;
+    color: #A0785A;
+    margin-bottom: 20px;
+}
+
+.cgv-section h3 {
+    font-family: 'Poiret One', cursive;
+    font-size: 1.4em;
+    color: #3D3635;
+    margin: 20px 0 15px;
+}
+
+.cgv-section p, 
+.cgv-section ul {
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+.cgv-section ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.cgv-section li {
+    margin-bottom: 8px;
+}
+
+/* Footer des pages légales */
+.cgv-footer {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid #E3C0A8;
+    text-align: right;
+    font-size: 0.9em;
+    color: #3D3635;
+}
+
+/* Table des matières */
+.table-of-contents {
+    background-color: #FFF5EE;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 30px 0;
+}
+
+.toc-title {
+    font-family: 'Poiret One', cursive;
+    font-size: 1.5em;
+    color: #A0785A;
+    margin-bottom: 15px;
+}
+
+.toc-list {
+    list-style: none;
+    padding: 0;
+}
+
+.toc-list li {
+    margin-bottom: 10px;
+}
+
+.toc-list a {
+    color: #A0785A;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.toc-list a:hover {
+    color: #3D3635;
+}
+
+/* Styles de la page Mentions Légales */
+.legal-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.legal-section {
+    margin-bottom: 30px;
+}
+
+.host-info {
+    background-color: #FFF5EE;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+/* Styles de la page Politique de confidentialité */
+.privacy-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.privacy-section {
+    margin-bottom: 30px;
+}
+
+/* Styles d'impression */
+@media print {
+    .cgv-container,
+    .legal-container,
+    .privacy-container {
+        box-shadow: none;
+        padding: 0;
+    }
+
+    .table-of-contents {
+        display: none;
+    }
+
+    .cgv-section {
+        page-break-inside: avoid;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .cgv-container,
+    .legal-container,
+    .privacy-container {
+        padding: 20px;
+    }
+
+    .cgv-title {
+        font-size: 2em;
+    }
+
+    .cgv-section h2 {
+        font-size: 1.5em;
+    }
+
+    .cgv-section h3 {
+        font-size: 1.2em;
+    }
+
+    .business-info,
+    .host-info {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cgv-title {
+        font-size: 1.8em;
+    }
+
+    .cgv-section h2 {
+        font-size: 1.3em;
+    }
+
+    .cgv-section h3 {
+        font-size: 1.1em;
+    }
+}
