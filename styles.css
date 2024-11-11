@@ -1,1 +1,8 @@
-
+body {
+    font-family: 'Nunito', sans-serif;
+    line-height: 1.6;
+    color: #3D3635;
+    background-color: #FFF5EE;
+    margin: 0;
+    padding: 0;
+}
