@@ -156,9 +156,11 @@ body {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    text-decoration: none !important;
+    text-decoration: none;
     transition: all 0.3s ease;
     border: 2px solid transparent;
+    min-width: 200px;
+    text-align: center;
 }
 
 .btn:hover {
@@ -173,6 +175,9 @@ body {
     border-bottom: 1px solid #A0785A;
     padding: 5px 0;
     text-transform: none;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
 }
 
 .btn-text:hover {
@@ -181,33 +186,33 @@ body {
 }
 .btn-primary {
     background-color: #A0785A;
-    color: #FFFFFF !important;
+    color: #FFFFFF;
     border-color: #A0785A;
 }
 
 .btn-primary:hover {
     background-color: #3D3635;
     border-color: #3D3635;
-    color: #FFFFFF !important;
+    color: #FFFFFF;
 }
 
 
 /* Style spécifique pour le bouton secondaire */
 .btn-secondary {
     background-color: transparent;
-    color: #A0785A !important;
-    border: 2px solid #A0785A;
+    color: #A0785A;
+    border-color: #A0785A;
 }
 
 .btn-secondary:hover {
     background-color: #A0785A;
+    color: #FFFFFF;
     border-color: #A0785A;
-    color: #FFFFFF !important;
 }
 
 
 .btn-large {
-    padding: 1rem 3rem;
+    padding: 15px 30px;
     font-size: 1.2rem;
 }
 
@@ -486,14 +491,14 @@ body {
         font-size: 1.2rem;
     }
     
-        .hero-cta {
+      .hero-cta {
         flex-direction: column;
         align-items: center;
     }
 
     .hero-cta .btn {
         width: 100%;
-        max-width: 300px; /* Largeur maximale sur mobile */
+        max-width: 300px;
     }
     
     .services-grid,
