@@ -161,12 +161,16 @@ body {
     border: 2px solid transparent;
     min-width: 200px;
     text-align: center;
+    /* Style par défaut - même style que btn-primary */
+    background-color: #A0785A;
+    color: #FFFFFF;
+    border-color: #A0785A;
 }
 
 .btn:hover {
     background-color: #3D3635;
     border-color: #3D3635;
-    color: #FFFFFF !important;
+    color: #FFFFFF;
 }
 
 .btn-text {
@@ -178,6 +182,7 @@ body {
     text-decoration: none;
     transition: all 0.3s ease;
     display: inline-block;
+    min-width: auto; /* Override la largeur minimale */
 }
 
 .btn-text:hover {
