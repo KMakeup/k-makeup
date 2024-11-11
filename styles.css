@@ -761,6 +761,18 @@ body {
     margin-bottom: 40px;
 }
 
+.cgv-section a {
+    color: #A0785A;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.cgv-section a:hover {
+    color: #3D3635;
+    border-bottom-color: #3D3635;
+}
+
 .cgv-section h2 {
     font-family: 'Poiret One', cursive;
     font-size: 1.8em;
