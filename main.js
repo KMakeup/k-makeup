@@ -70,6 +70,108 @@ class SiteManager {
                 });
             });
         }
+        initPrestationPage() {
+        this.initFaqAccordion();
+        this.initScrollSpy();
+        this.animatePricing();
+        this.initBookingTracking();
+    }
+
+    initFaqAccordion() {
+        const faqs = utils.selectAll('.faq-item');
+        faqs.forEach(faq => {
+            utils.addEvent(faq, 'click', (e) => {
+                // Empêche la propagation si on clique sur le contenu
+                if (e.target.closest('.faq-content')) {
+                    e.stopPropagation();
+                    return;
+                }
+
+                // Ferme les autres FAQ ouverts
+                faqs.forEach(otherFaq => {
+                    if (otherFaq !== faq && otherFaq.hasAttribute('open')) {
+                        otherFaq.removeAttribute('open');
+                    }
+                });
+            });
+        });
+    }
+
+    initScrollSpy() {
+        const sections = utils.selectAll('section[id]');
+        const navLinks = utils.selectAll('.nav-link');
+
+        const observerOptions = {
+            rootMargin: '-100px 0px -80% 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        if (link.getAttribute('href') === `#${entry.target.id}`) {
+                            link.classList.add('active');
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => observer.observe(section));
+    }
+
+    animatePricing() {
+        const pricingCards = utils.selectAll('.pricing-card');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+
+                    // Animation du prix
+                    const priceElement = entry.target.querySelector('.price');
+                    if (priceElement) {
+                        const finalPrice = parseInt(priceElement.textContent);
+                        let currentPrice = 0;
+                        const duration = 1000; // 1 seconde
+                        const increment = finalPrice / (duration / 16); // 60 FPS
+
+                        const animatePrice = () => {
+                            if (currentPrice < finalPrice) {
+                                currentPrice += increment;
+                                priceElement.textContent = `${Math.min(Math.round(currentPrice), finalPrice)}€`;
+                                requestAnimationFrame(animatePrice);
+                            }
+                        };
+
+                        animatePrice();
+                    }
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        pricingCards.forEach(card => observer.observe(card));
+    }
+
+    initBookingTracking() {
+        // Suivi des clics sur les boutons de réservation
+        utils.selectAll('.booking-buttons a').forEach(button => {
+            utils.addEvent(button, 'click', (e) => {
+                // Si vous avez Google Analytics ou un autre outil d'analytics
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'click', {
+                        'event_category': 'Booking',
+                        'event_label': button.getAttribute('href').includes('tel') ? 'Phone' : 'Email'
+                    });
+                }
+            });
+        });
+    }
     }
     
     // Section prestations
@@ -214,6 +316,28 @@ document.addEventListener('DOMContentLoaded', () => {
     printButtons.forEach(button => {
         button.addEventListener('click', () => {
             window.print();
+        });
+    });
+    const siteManager = new SiteManager();
+    siteManager.initPrestationPage();
+
+    // Ajout d'un gestionnaire pour les ancres douces
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            
+            if (targetId === '#') return;
+            
+            const target = document.querySelector(targetId);
+            const headerOffset = 100; // Ajuster selon la hauteur de votre header
+            const elementPosition = target.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
         });
     });
 });
