@@ -1,17 +1,14 @@
 // Fonctions utilitaires
 const utils = {
-    // Sélecteur d'éléments optimisé
     select: (selector, parent = document) => parent.querySelector(selector),
     selectAll: (selector, parent = document) => parent.querySelectorAll(selector),
     
-    // Ajout d'événements avec vérification
     addEvent: (element, event, handler) => {
         if (element) {
             element.addEventListener(event, handler);
         }
     },
     
-    // Gestion des classes avec vérification
     toggleClass: (element, className) => {
         if (element) {
             element.classList.toggle(className);
@@ -24,7 +21,8 @@ class SiteManager {
     constructor() {
         // Éléments du menu mobile
         this.menuButton = utils.select('.menu-button');
-        this.nav = utils.select('.nav');
+        this.nav = utils.select('nav');  // Changé pour sélectionner directement le nav
+        this.menuOpen = false;  // État du menu
         
         // Options pour l'Intersection Observer
         this.observerOptions = {
@@ -45,17 +43,45 @@ class SiteManager {
         this.initResizeHandler();
         this.initFontsLoading();
         this.checkReduceMotion();
+        this.updateCopyrightYear();
     }
     
     // Menu mobile
     initMobileMenu() {
-        utils.addEvent(this.menuButton, 'click', () => {
-            utils.toggleClass(this.menuButton, 'is-open');
-            utils.toggleClass(this.nav, 'is-open');
-        });
+        if (this.menuButton && this.nav) {
+            this.menuButton.addEventListener('click', () => {
+                this.menuOpen = !this.menuOpen;
+                this.menuButton.classList.toggle('is-open');
+                this.nav.classList.toggle('is-open');
+                
+                // Optionnel : empêcher le défilement du body quand le menu est ouvert
+                document.body.style.overflow = this.menuOpen ? 'hidden' : '';
+            });
+
+            // Fermer le menu en cliquant sur un lien
+            const menuLinks = this.nav.querySelectorAll('a');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (this.menuOpen) {
+                        this.menuButton.classList.remove('is-open');
+                        this.nav.classList.remove('is-open');
+                        this.menuOpen = false;
+                        document.body.style.overflow = '';
+                    }
+                });
+            });
+        }
+    }
+
+    // Mise à jour de l'année dans le copyright
+    updateCopyrightYear() {
+        const yearElement = utils.select('.current-year');
+        if (yearElement) {
+            yearElement.textContent = new Date().getFullYear();
+        }
     }
     
-    // Animations au scroll
+    // [Le reste des méthodes reste inchangé...]
     initScrollAnimations() {
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
@@ -73,7 +99,6 @@ class SiteManager {
             });
     }
     
-    // Smooth scroll
     initSmoothScroll() {
         utils.selectAll('a[href^="#"]').forEach(anchor => {
             utils.addEvent(anchor, 'click', (e) => {
@@ -91,7 +116,6 @@ class SiteManager {
         });
     }
     
-    // Lazy loading images
     initLazyLoading() {
         const imageObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
@@ -111,7 +135,6 @@ class SiteManager {
         });
     }
     
-    // Animation des cartes services
     initServiceCards() {
         utils.selectAll('.service-card').forEach(card => {
             utils.addEvent(card, 'mouseenter', () => {
@@ -124,25 +147,28 @@ class SiteManager {
         });
     }
     
-    // Gestion du redimensionnement
     initResizeHandler() {
         let resizeTimer;
         utils.addEvent(window, 'resize', () => {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => {
-                // Ajoutez ici les ajustements nécessaires
+                // Réinitialiser l'état du menu si nécessaire sur desktop
+                if (window.innerWidth > 991 && this.menuOpen) {
+                    this.menuButton.classList.remove('is-open');
+                    this.nav.classList.remove('is-open');
+                    this.menuOpen = false;
+                    document.body.style.overflow = '';
+                }
             }, 250);
         });
     }
     
-    // Chargement des polices
     initFontsLoading() {
         document.fonts.ready.then(() => {
             document.documentElement.classList.add('fonts-loaded');
         });
     }
     
-    // Vérification des préférences de mouvement
     checkReduceMotion() {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
             document.documentElement.classList.add('reduce-motion');
@@ -150,15 +176,7 @@ class SiteManager {
     }
 }
 
-// Initialisation après chargement du DOM
+// Une seule initialisation
 document.addEventListener('DOMContentLoaded', () => {
     new SiteManager();
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Mise à jour de l'année en cours
-    const yearElement = document.querySelector('.current-year');
-    if (yearElement) {
-        yearElement.textContent = new Date().getFullYear();
-    }
 });
