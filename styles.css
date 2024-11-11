@@ -1,11 +1,3 @@
-:root {
-    /* Couleurs principales */
-    --color-dark: #3D3635;    /* Brun Profond - Utilisé pour les textes principaux et éléments importants */
-    --color-medium: #A0785A;  /* Terre de Sienne - Utilisé pour les accents et éléments interactifs */
-    --color-light: #E3C0A8;   /* Beige Doux - Utilisé pour les arrière-plans secondaires et décorations */
-    --color-bg: #FFF5EE;      /* Blanc Coquille - Utilisé pour les arrière-plans principaux */
-    --color-white: #FFFFFF;   /* Blanc Pur - Utilisé pour les fonds et le texte sur fond sombre */
-}
 /* Styles généraux */
 body {
     margin: 0;
