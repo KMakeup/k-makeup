@@ -144,19 +144,21 @@ body {
     justify-content: center;
 }
 
+.hero-cta .btn {
+    min-width: 200px; /* Largeur minimale pour l'alignement */
+}
+
 /* Buttons */
 .btn {
     display: inline-block;
-    background-color: #A0785A;
-    color: #FFFFFF !important; /* Force la couleur du texte */
     padding: 10px 20px;
     border-radius: 5px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    text-decoration: none !important; /* Supprime le soulignement */
+    text-decoration: none !important;
     transition: all 0.3s ease;
-    border: 2px solid #A0785A;
+    border: 2px solid transparent;
 }
 
 .btn:hover {
@@ -177,6 +179,18 @@ body {
     color: #3D3635;
     border-bottom-color: #3D3635;
 }
+.btn-primary {
+    background-color: #A0785A;
+    color: #FFFFFF !important;
+    border-color: #A0785A;
+}
+
+.btn-primary:hover {
+    background-color: #3D3635;
+    border-color: #3D3635;
+    color: #FFFFFF !important;
+}
+
 
 /* Style spécifique pour le bouton secondaire */
 .btn-secondary {
@@ -187,8 +201,10 @@ body {
 
 .btn-secondary:hover {
     background-color: #A0785A;
+    border-color: #A0785A;
     color: #FFFFFF !important;
 }
+
 
 .btn-large {
     padding: 1rem 3rem;
@@ -470,8 +486,14 @@ body {
         font-size: 1.2rem;
     }
     
-    .hero-cta {
+        .hero-cta {
         flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-cta .btn {
+        width: 100%;
+        max-width: 300px; /* Largeur maximale sur mobile */
     }
     
     .services-grid,
