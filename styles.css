@@ -1375,3 +1375,558 @@ body {
         padding: 1.5rem;
     }
 }
+
+/* Mise à jour des styles existants et ajout de nouveaux styles */
+
+/* Amélioration des cards de tarifs */
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+    padding: 1rem;
+}
+
+.pricing-card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border: 1px solid #E3C0A8;
+}
+
+.pricing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+}
+
+.pricing-card-featured {
+    background: linear-gradient(to bottom, #FFF5EE, #FFFFFF);
+    border: 2px solid #A0785A;
+    transform: scale(1.05);
+}
+
+.pricing-card-featured:hover {
+    transform: scale(1.05) translateY(-5px);
+}
+
+.pricing-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #A0785A;
+    color: #FFFFFF;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.pricing-header {
+    padding: 2rem;
+    text-align: center;
+    background: rgba(227, 192, 168, 0.1);
+    border-bottom: 1px solid #E3C0A8;
+}
+
+.pricing-header h3 {
+    font-family: 'Poiret One', cursive;
+    color: #3D3635;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.price {
+    font-size: 2.5rem;
+    color: #A0785A;
+    font-weight: 700;
+    margin: 1rem 0;
+    font-family: 'Nunito', sans-serif;
+}
+
+.price-description {
+    color: #3D3635;
+    font-size: 0.925rem;
+    margin-bottom: 0;
+}
+
+.pricing-features {
+    list-style: none;
+    padding: 2rem;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.pricing-features li {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    position: relative;
+    color: #3D3635;
+}
+
+.pricing-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #A0785A;
+    font-weight: bold;
+}
+
+.pricing-card .btn {
+    margin: 0 2rem 2rem;
+}
+
+/* Mise à jour du bouton light */
+.btn-light {
+    background-color: #FFFFFF;
+    color: #A0785A;
+    border: 2px solid #A0785A;
+}
+
+.btn-light:hover {
+    background-color: #FFF5EE;
+    color: #3D3635;
+    border-color: #3D3635;
+}
+
+/* Amélioration de la FAQ */
+.faq-grid {
+    max-width: 800px;
+    margin: 3rem auto 0;
+}
+
+.faq-item {
+    background: #FFFFFF;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border: 1px solid #E3C0A8;
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.faq-item summary {
+    padding: 1.5rem;
+    cursor: pointer;
+    position: relative;
+    font-weight: 600;
+    list-style: none;
+    color: #3D3635;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-item summary::after {
+    content: '+';
+    font-size: 1.5rem;
+    color: #A0785A;
+    transition: transform 0.3s ease;
+}
+
+.faq-item[open] summary::after {
+    transform: rotate(45deg);
+}
+
+.faq-content {
+    padding: 0 1.5rem 1.5rem;
+    color: #3D3635;
+    line-height: 1.6;
+}
+
+/* Amélioration de la section de réservation */
+.prestation-booking {
+    background: linear-gradient(45deg, #A0785A 0%, #3D3635 100%);
+    padding: 5rem 0;
+    color: #FFFFFF;
+}
+
+.booking-content {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.booking-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.booking-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.booking-buttons .btn {
+    min-width: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.booking-buttons .icon-phone,
+.booking-buttons .icon-mail {
+    font-size: 1.2rem;
+}
+
+/* Amélioration des étapes */
+.prestation-steps {
+    background-color: #FFF5EE;
+    padding: 5rem 0;
+}
+
+.step-card {
+    background: #FFFFFF;
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    border: 1px solid #E3C0A8;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(45deg, #A0785A, #3D3635);
+    color: #FFFFFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.step-card h3 {
+    color: #3D3635;
+    margin-bottom: 1rem;
+    font-family: 'Poiret One', cursive;
+    font-size: 1.3rem;
+}
+
+.step-card p {
+    color: #3D3635;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    .pricing-card-featured {
+        transform: scale(1);
+    }
+    
+    .pricing-card-featured:hover {
+        transform: translateY(-5px);
+    }
+
+    .booking-buttons {
+        flex-direction: column;
+    }
+
+    .booking-buttons .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        padding: 0;
+    }
+    
+    .pricing-card {
+        transform: none !important;
+    }
+    
+    .pricing-header {
+        padding: 1.5rem;
+    }
+    
+    .pricing-features {
+        padding: 1.5rem;
+    }
+
+    .step-card {
+        padding: 1.5rem;
+    }
+
+    .faq-item summary {
+        padding: 1.25rem;
+    }
+
+    .booking-content p {
+        font-size: 1.1rem;
+    }
+}
+
+/* Animation des cartes au scroll */
+.step-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.step-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Préférences de réduction de mouvement */
+@media (prefers-reduced-motion: reduce) {
+    .pricing-card,
+    .step-card,
+    .faq-item,
+    .booking-buttons .btn {
+        transition: none;
+    }
+}
+/* Styles enrichis pour la section SEO */
+.seo-content {
+    background-color: #FFFFFF;
+    padding: 5rem 0;
+    margin-top: 2rem;
+    border-top: 1px solid #E3C0A8;
+}
+
+.seo-text {
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+    padding: 0 1.5rem;
+}
+
+.seo-text h2 {
+    font-family: 'Poiret One', cursive;
+    color: #3D3635;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.seo-text h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: #A0785A;
+}
+
+.seo-text h3 {
+    font-family: 'Poiret One', cursive;
+    color: #A0785A;
+    font-size: 1.5rem;
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #E3C0A8;
+}
+
+.seo-text p {
+    margin-bottom: 1.5rem;
+    color: #3D3635;
+    font-size: 1.05rem;
+}
+
+.seo-text strong {
+    color: #A0785A;
+    font-weight: 600;
+}
+
+.seo-list {
+    list-style: none;
+    margin: 1.5rem 0;
+    padding-left: 0;
+}
+
+.seo-list li {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+    position: relative;
+    color: #3D3635;
+    line-height: 1.6;
+}
+
+.seo-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0.5rem;
+    color: #A0785A;
+    font-size: 1.2em;
+}
+
+.seo-callout {
+    background: linear-gradient(to right, #FFF5EE, #FFFFFF);
+    padding: 3rem;
+    border-radius: 12px;
+    margin: 3rem 0;
+    text-align: center;
+    border: 1px solid #E3C0A8;
+    position: relative;
+    overflow: hidden;
+}
+
+.seo-callout::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: #A0785A;
+}
+
+.seo-callout p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    color: #3D3635;
+    font-style: italic;
+}
+
+/* Grille pour les avantages ou caractéristiques */
+.seo-features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.seo-feature {
+    background: #FFF5EE;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.seo-feature h4 {
+    color: #A0785A;
+    margin-bottom: 1rem;
+    font-family: 'Poiret One', cursive;
+    font-size: 1.2rem;
+}
+
+/* Zone des secteurs d'intervention */
+.seo-locations {
+    background: #FFF5EE;
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+.seo-locations h3 {
+    border-bottom: none;
+    margin-top: 0;
+}
+
+.locations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.location-item {
+    padding: 0.5rem;
+    text-align: center;
+    color: #3D3635;
+    font-size: 0.95rem;
+}
+
+/* Bloc de mise en avant */
+.seo-highlight {
+    background: linear-gradient(45deg, #E3C0A8 0%, #FFF5EE 100%);
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+    color: #3D3635;
+}
+
+/* Citation ou témoignage dans le SEO */
+.seo-quote {
+    font-style: italic;
+    padding: 2rem;
+    position: relative;
+    margin: 2rem 0;
+    border-left: 4px solid #A0785A;
+    background: #FFF5EE;
+}
+
+.seo-quote::before {
+    content: '"';
+    font-size: 4rem;
+    color: #A0785A;
+    position: absolute;
+    top: -1rem;
+    left: 1rem;
+    opacity: 0.2;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .seo-content {
+        padding: 3rem 0;
+    }
+
+    .seo-text {
+        padding: 0 1rem;
+    }
+
+    .seo-text h2 {
+        font-size: 1.75rem;
+    }
+
+    .seo-text h3 {
+        font-size: 1.25rem;
+    }
+
+    .seo-callout {
+        padding: 2rem;
+        margin: 2rem 0;
+    }
+
+    .seo-features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .locations-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
+
+/* Animations */
+@media (prefers-reduced-motion: no-preference) {
+    .seo-feature,
+    .location-item {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .seo-feature.visible,
+    .location-item.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
