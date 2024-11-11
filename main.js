@@ -44,13 +44,18 @@ class SiteManager {
         this.initFontsLoading();
         this.checkReduceMotion();
         this.updateCopyrightYear();
-        this.initPrestations(); // Ajout de l'initialisation des prestations
+        this.initPrestations();
+        
+        // Initialisation conditionnelle pour la page prestation
+        if (document.querySelector('.prestation-hero')) {
+            this.initPrestationPage();
+        }
     }
     
     // Menu mobile
     initMobileMenu() {
         if (this.menuButton && this.nav) {
-            this.menuButton.addEventListener('click', () => {
+            utils.addEvent(this.menuButton, 'click', () => {
                 this.menuOpen = !this.menuOpen;
                 this.menuButton.classList.toggle('is-open');
                 this.nav.classList.toggle('is-open');
@@ -60,7 +65,7 @@ class SiteManager {
             // Fermer le menu en cliquant sur un lien
             const menuLinks = this.nav.querySelectorAll('a');
             menuLinks.forEach(link => {
-                link.addEventListener('click', () => {
+                utils.addEvent(link, 'click', () => {
                     if (this.menuOpen) {
                         this.menuButton.classList.remove('is-open');
                         this.nav.classList.remove('is-open');
@@ -70,108 +75,6 @@ class SiteManager {
                 });
             });
         }
-        initPrestationPage() {
-        this.initFaqAccordion();
-        this.initScrollSpy();
-        this.animatePricing();
-        this.initBookingTracking();
-    }
-
-    initFaqAccordion() {
-        const faqs = utils.selectAll('.faq-item');
-        faqs.forEach(faq => {
-            utils.addEvent(faq, 'click', (e) => {
-                // Empêche la propagation si on clique sur le contenu
-                if (e.target.closest('.faq-content')) {
-                    e.stopPropagation();
-                    return;
-                }
-
-                // Ferme les autres FAQ ouverts
-                faqs.forEach(otherFaq => {
-                    if (otherFaq !== faq && otherFaq.hasAttribute('open')) {
-                        otherFaq.removeAttribute('open');
-                    }
-                });
-            });
-        });
-    }
-
-    initScrollSpy() {
-        const sections = utils.selectAll('section[id]');
-        const navLinks = utils.selectAll('.nav-link');
-
-        const observerOptions = {
-            rootMargin: '-100px 0px -80% 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    navLinks.forEach(link => {
-                        if (link.getAttribute('href') === `#${entry.target.id}`) {
-                            link.classList.add('active');
-                        } else {
-                            link.classList.remove('active');
-                        }
-                    });
-                }
-            });
-        }, observerOptions);
-
-        sections.forEach(section => observer.observe(section));
-    }
-
-    animatePricing() {
-        const pricingCards = utils.selectAll('.pricing-card');
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-
-                    // Animation du prix
-                    const priceElement = entry.target.querySelector('.price');
-                    if (priceElement) {
-                        const finalPrice = parseInt(priceElement.textContent);
-                        let currentPrice = 0;
-                        const duration = 1000; // 1 seconde
-                        const increment = finalPrice / (duration / 16); // 60 FPS
-
-                        const animatePrice = () => {
-                            if (currentPrice < finalPrice) {
-                                currentPrice += increment;
-                                priceElement.textContent = `${Math.min(Math.round(currentPrice), finalPrice)}€`;
-                                requestAnimationFrame(animatePrice);
-                            }
-                        };
-
-                        animatePrice();
-                    }
-                }
-            });
-        }, {
-            threshold: 0.1
-        });
-
-        pricingCards.forEach(card => observer.observe(card));
-    }
-
-    initBookingTracking() {
-        // Suivi des clics sur les boutons de réservation
-        utils.selectAll('.booking-buttons a').forEach(button => {
-            utils.addEvent(button, 'click', (e) => {
-                // Si vous avez Google Analytics ou un autre outil d'analytics
-                if (typeof gtag !== 'undefined') {
-                    gtag('event', 'click', {
-                        'event_category': 'Booking',
-                        'event_label': button.getAttribute('href').includes('tel') ? 'Phone' : 'Email'
-                    });
-                }
-            });
-        });
-    }
     }
     
     // Section prestations
@@ -179,7 +82,6 @@ class SiteManager {
         const prestationCards = utils.selectAll('.prestation-card');
         if (!prestationCards.length) return;
 
-        // Animation au scroll des cartes
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach(entry => {
@@ -205,6 +107,104 @@ class SiteManager {
         });
     }
 
+    // Méthodes spécifiques à la page prestation
+    initPrestationPage() {
+        this.initFaqAccordion();
+        this.initScrollSpy();
+        this.animatePricing();
+        this.initBookingTracking();
+    }
+
+    initFaqAccordion() {
+        const faqs = utils.selectAll('.faq-item');
+        faqs.forEach(faq => {
+            utils.addEvent(faq, 'click', (e) => {
+                if (e.target.closest('.faq-content')) {
+                    e.stopPropagation();
+                    return;
+                }
+
+                faqs.forEach(otherFaq => {
+                    if (otherFaq !== faq && otherFaq.hasAttribute('open')) {
+                        otherFaq.removeAttribute('open');
+                    }
+                });
+            });
+        });
+    }
+
+    initScrollSpy() {
+        const sections = utils.selectAll('section[id]');
+        const navLinks = utils.selectAll('.nav-link');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        if (link.getAttribute('href') === `#${entry.target.id}`) {
+                            link.classList.add('active');
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        }, {
+            rootMargin: '-100px 0px -80% 0px'
+        });
+
+        sections.forEach(section => observer.observe(section));
+    }
+
+    animatePricing() {
+        const pricingCards = utils.selectAll('.pricing-card');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+
+                    const priceElement = entry.target.querySelector('.price');
+                    if (priceElement) {
+                        const finalPrice = parseInt(priceElement.textContent);
+                        let currentPrice = 0;
+                        const duration = 1000;
+                        const increment = finalPrice / (duration / 16);
+
+                        const animatePrice = () => {
+                            if (currentPrice < finalPrice) {
+                                currentPrice += increment;
+                                priceElement.textContent = `${Math.min(Math.round(currentPrice), finalPrice)}€`;
+                                requestAnimationFrame(animatePrice);
+                            }
+                        };
+
+                        animatePrice();
+                    }
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        pricingCards.forEach(card => observer.observe(card));
+    }
+
+    initBookingTracking() {
+        utils.selectAll('.booking-buttons a').forEach(button => {
+            utils.addEvent(button, 'click', () => {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'click', {
+                        'event_category': 'Booking',
+                        'event_label': button.getAttribute('href').includes('tel') ? 'Phone' : 'Email'
+                    });
+                }
+            });
+        });
+    }
+
+    // Autres méthodes existantes
     initScrollAnimations() {
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
@@ -231,10 +231,16 @@ class SiteManager {
                 if (targetId === '#') return;
                 
                 const target = utils.select(targetId);
-                target?.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+                if (target) {
+                    const headerOffset = 100;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
             });
         });
     }
@@ -312,32 +318,9 @@ document.addEventListener('DOMContentLoaded', () => {
     new SiteManager();
 
     // Gestion du bouton d'impression pour les pages légales
-    const printButtons = document.querySelectorAll('.print-legal');
-    printButtons.forEach(button => {
-        button.addEventListener('click', () => {
+    utils.selectAll('.print-legal').forEach(button => {
+        utils.addEvent(button, 'click', () => {
             window.print();
-        });
-    });
-    const siteManager = new SiteManager();
-    siteManager.initPrestationPage();
-
-    // Ajout d'un gestionnaire pour les ancres douces
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            
-            if (targetId === '#') return;
-            
-            const target = document.querySelector(targetId);
-            const headerOffset = 100; // Ajuster selon la hauteur de votre header
-            const elementPosition = target.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-            });
         });
     });
 });
