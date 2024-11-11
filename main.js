@@ -179,4 +179,18 @@ class SiteManager {
 // Une seule initialisation
 document.addEventListener('DOMContentLoaded', () => {
     new SiteManager();
+
+    const yearElements = document.querySelectorAll('.current-year');
+    yearElements.forEach(element => {
+        if (element) {
+            element.textContent = new Date().getFullYear();
+        }
+    });
+
+    const printButtons = document.querySelectorAll('.print-legal');
+    printButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            window.print();
+        });
+    });
 });
