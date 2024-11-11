@@ -932,3 +932,189 @@ body {
         font-size: 1.1em;
     }
 }
+
+
+/* Hero Section */
+.prestations-hero {
+    background-color: #FFF5EE;
+    padding: 6rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.prestations-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(45deg, rgba(227,192,168,0.1) 0%, rgba(160,120,90,0.1) 100%);
+    z-index: 1;
+}
+
+.prestations-hero > * {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: #A0785A;
+    margin-top: 1rem;
+}
+
+/* Grille des prestations */
+.prestations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 4rem 0;
+}
+
+/* Cards des prestations */
+.prestation-card {
+    background: #FFFFFF;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.prestation-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+}
+
+.prestation-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.prestation-content {
+    padding: 1.5rem;
+}
+
+.prestation-title {
+    font-family: 'Poiret One', cursive;
+    color: #3D3635;
+    font-size: 1.5rem;
+    margin: 0 0 1rem 0;
+}
+
+.prestation-price {
+    color: #A0785A;
+    font-weight: bold;
+    font-size: 1.25rem;
+    margin: 1rem 0;
+}
+
+.prestation-description {
+    color: #3D3635;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+/* Liste des caractéristiques */
+.prestation-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+}
+
+.prestation-features li {
+    padding-left: 1.5rem;
+    position: relative;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.prestation-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #A0785A;
+}
+
+/* Boutons */
+.cta-secondary {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: transparent;
+    color: #A0785A;
+    border: 2px solid #A0785A;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.cta-secondary:hover {
+    background-color: #A0785A;
+    color: #FFFFFF;
+}
+
+/* Section filtres */
+.filters-section {
+    background-color: #FFFFFF;
+    padding: 1rem 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #E3C0A8;
+}
+
+.filters-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.filter-btn {
+    padding: 0.5rem 1rem;
+    background: none;
+    border: 2px solid #A0785A;
+    border-radius: 25px;
+    color: #A0785A;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn.active {
+    background-color: #A0785A;
+    color: #FFFFFF;
+}
+
+.filter-btn:hover {
+    background-color: #A0785A;
+    color: #FFFFFF;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .prestations-grid {
+        grid-template-columns: 1fr;
+        padding: 2rem 1rem;
+    }
+
+    .filters-container {
+        justify-content: center;
+    }
+
+    .prestations-hero {
+        padding: 4rem 1rem;
+    }
+}
+
+/* Préférences de réduction de mouvement */
+@media (prefers-reduced-motion: reduce) {
+    .prestation-card {
+        transition: none;
+    }
+}
