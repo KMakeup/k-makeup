@@ -1018,9 +1018,22 @@ body {
 
 /* CTAs */
 .prestation-ctas {
-    display: flex;
-    gap: 1rem;
+  display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
     margin-top: 1.5rem;
+}
+.prestation-ctas .btn {
+    display: inline-block;
+    width: auto;
+    align-self: flex-start;
+}
+
+@media (max-width: 480px) {
+    .prestation-ctas .btn {
+        width: 100%;
+        align-self: stretch;
+    }
 }
 
 /* Section SEO */
