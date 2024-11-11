@@ -15,75 +15,7 @@ const utils = {
         }
     }
 };
-// Classe de gestion de la page prestations
-class PrestationsManager {
-    constructor() {
-        // Vérifie si nous sommes sur la page prestations
-        if (!document.querySelector('.prestations-grid')) return;
-        
-        this.filterButtons = document.querySelectorAll('.filter-btn');
-        this.prestationCards = document.querySelectorAll('.prestation-card');
-        
-        this.initFilters();
-        this.initScrollAnimations();
-        this.initImageErrorHandling();
-    }
 
-    initFilters() {
-        this.filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Mise à jour des boutons actifs
-                this.filterButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-
-                // Filtrage des prestations
-                const filter = button.dataset.filter;
-                this.prestationCards.forEach(card => {
-                    if (filter === 'tous') {
-                        card.style.display = 'block';
-                        setTimeout(() => card.style.opacity = '1', 0);
-                    } else {
-                        if (card.dataset.category === filter) {
-                            card.style.display = 'block';
-                            setTimeout(() => card.style.opacity = '1', 0);
-                        } else {
-                            card.style.opacity = '0';
-                            setTimeout(() => card.style.display = 'none', 300);
-                        }
-                    }
-                });
-            });
-        });
-    }
-
-    initScrollAnimations() {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            {
-                threshold: 0.1,
-                rootMargin: '50px'
-            }
-        );
-
-        this.prestationCards.forEach(card => observer.observe(card));
-    }
-
-    initImageErrorHandling() {
-        const images = document.querySelectorAll('.prestation-image');
-        images.forEach(img => {
-            img.addEventListener('error', function() {
-                this.src = '/api/placeholder/400/300';
-            });
-        });
-    }
-}
 // Gestionnaire principal
 class SiteManager {
     constructor() {
@@ -249,7 +181,33 @@ document.addEventListener('DOMContentLoaded', () => {
     new SiteManager();
         new PrestationsManager();
 
+const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        },
+        {
+            threshold: 0.1,
+            rootMargin: '50px'
+        }
+    );
 
+    // Observe chaque carte de prestation
+    document.querySelectorAll('.prestation-card').forEach(card => {
+        observer.observe(card);
+    });
+
+    // Gestion des erreurs de chargement d'images
+    document.querySelectorAll('.prestation-image').forEach(img => {
+        img.addEventListener('error', function() {
+            this.src = '/api/placeholder/400/300';
+        });
+    });
+    
     const yearElements = document.querySelectorAll('.current-year');
     yearElements.forEach(element => {
         if (element) {
@@ -264,3 +222,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
