@@ -147,6 +147,37 @@
     border-radius: 8px;
     margin: 30px 0;
 }
+.hero {
+    position: relative;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 8rem 0 4rem;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: #A0785A;
+    margin: 1.5rem auto;
+    max-width: 600px;
+}
+
+/* Style CTA final */
+.cta {
+    background-color: #FFF5EE;
+    text-align: center;
+    padding: 5rem 0;
+}
+
+.cta h2 {
+    margin-bottom: 1rem;
+}
+
+.cta p {
+    margin-bottom: 2rem;
+    color: #A0785A;
+}
 
 /* SEO Section */
 .seo-content {
