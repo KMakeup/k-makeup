@@ -45,6 +45,7 @@ class SiteManager {
         this.checkReduceMotion();
         this.updateCopyrightYear();
         this.initPrestations();
+        this.animateSteps(); // Ajout de l'initialisation des animations des étapes
         
         // Initialisation conditionnelle pour la page prestation
         if (document.querySelector('.prestation-hero')) {
@@ -105,6 +106,29 @@ class SiteManager {
                 this.src = '/api/placeholder/400/300';
             });
         });
+    }
+
+    // Animation des étapes
+    animateSteps() {
+        const stepCards = utils.selectAll('.step-card');
+        if (!stepCards.length) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                threshold: 0.1,
+                rootMargin: '50px'
+            }
+        );
+
+        stepCards.forEach(card => observer.observe(card));
     }
 
     // Méthodes spécifiques à la page prestation
@@ -204,7 +228,7 @@ class SiteManager {
         });
     }
 
-    // Autres méthodes existantes
+    // Animations au scroll
     initScrollAnimations() {
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
@@ -215,7 +239,7 @@ class SiteManager {
             });
         }, this.observerOptions);
 
-        utils.selectAll('.service-card, .testimonial, .about-content, .instagram-item')
+        utils.selectAll('.service-card, .testimonial, .about-content, .instagram-item, .step-card')
             .forEach(el => {
                 el.classList.add('fade-in');
                 observer.observe(el);
