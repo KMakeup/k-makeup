@@ -116,6 +116,56 @@ main {
 .instagram-grid {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
+/* Structure About */
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    padding: 2rem 0;
+}
+
+.about-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.about-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Structure Instagram */
+.instagram-grid {
+    margin: 3rem 0;
+}
+
+.instagram-item {
+    overflow: hidden;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.instagram-item:hover {
+    transform: scale(1.02);
+}
+
+.instagram-item img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+/* Centrage du bouton Instagram */
+.instagram .btn {
+    display: block;
+    width: fit-content;
+    margin: 2rem auto 0;
+}
 
 /* Footer */
 .footer {
@@ -181,6 +231,19 @@ main {
 @media (max-width: 767px) {
     .menu-button {
         display: flex;
+    }
+     .about-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .hero-cta {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-cta .btn {
+        width: 100%;
     }
     
     .nav {
