@@ -700,3 +700,216 @@ body {
         display: none;
     }
 }
+/* Instagram Section */
+.instagram {
+    padding: 5rem 0;
+    background-color: #FFF5EE;
+}
+
+.instagram-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.instagram-item {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.instagram-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.instagram-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Footer compléments */
+.footer-contact {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-contact li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.875rem;
+}
+
+.footer-contact i {
+    color: #A0785A;
+    margin-top: 0.25rem;
+}
+
+.footer-contact a {
+    color: #3D3635;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-contact a:hover {
+    color: #A0785A;
+}
+
+.footer-bottom {
+    padding-top: 2rem;
+    border-top: 1px solid #E3C0A8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.footer-legal {
+    display: flex;
+    gap: 2rem;
+}
+
+.footer-legal a {
+    color: #A0785A;
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.3s ease;
+}
+
+.footer-copyright {
+    font-size: 0.875rem;
+    color: #3D3635;
+}
+
+/* Steps Section */
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.step-card {
+    background: #FFFFFF;
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(45deg, #A0785A, #3D3635);
+    color: #FFFFFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-weight: 700;
+}
+
+/* Table des matières */
+.table-of-contents {
+    background-color: #FFF5EE;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 30px 0;
+}
+
+.toc-title {
+    font-family: 'Poiret One', cursive;
+    font-size: 1.5em;
+    color: #A0785A;
+    margin-bottom: 15px;
+}
+
+.toc-list {
+    list-style: none;
+    padding: 0;
+}
+
+.toc-list a {
+    color: #A0785A;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+/* Locations Grid */
+.locations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.location-item {
+    padding: 0.5rem;
+    text-align: center;
+    color: #3D3635;
+    font-size: 0.95rem;
+}
+
+/* Citations et mises en avant */
+.seo-quote {
+    font-style: italic;
+    padding: 2rem;
+    position: relative;
+    margin: 2rem 0;
+    border-left: 4px solid #A0785A;
+    background: #FFF5EE;
+}
+
+.seo-highlight {
+    background: linear-gradient(45deg, #E3C0A8 0%, #FFF5EE 100%);
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+    color: #3D3635;
+}
+
+/* Compléments Responsive */
+@media (max-width: 991px) {
+    .steps-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .locations-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .steps-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .instagram-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .footer-legal {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+/* Réduction de mouvement */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
