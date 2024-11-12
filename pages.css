@@ -1,0 +1,225 @@
+/* Pages de prestations */
+.prestation-hero {
+    background-color: #FFF5EE;
+    padding: 6rem 0;
+    text-align: center;
+    position: relative;
+}
+
+.prestation-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, #E3C0A8 0%, #FFF5EE 100%);
+    opacity: 0.1;
+    z-index: 1;
+}
+
+.prestation-hero-title {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.prestation-hero-subtitle {
+    font-size: 1.5rem;
+    color: #A0785A;
+    margin-bottom: 2rem;
+}
+
+/* Cards des prestations */
+.prestation-card {
+    background: #FFFFFF;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.prestation-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.prestation-content {
+    padding: 2rem;
+}
+
+.prestation-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+}
+
+.prestation-features li {
+    padding-left: 1.5rem;
+    position: relative;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.prestation-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #A0785A;
+}
+
+/* Section Tarifs */
+.pricing-card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border: 1px solid #E3C0A8;
+}
+
+.pricing-card-featured {
+    background: linear-gradient(to bottom, #FFF5EE, #FFFFFF);
+    border: 2px solid #A0785A;
+    transform: scale(1.05);
+}
+
+.pricing-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #A0785A;
+    color: #FFFFFF;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.pricing-header {
+    padding: 2rem;
+    text-align: center;
+    background: rgba(227, 192, 168, 0.1);
+    border-bottom: 1px solid #E3C0A8;
+}
+
+.price {
+    font-size: 2.5rem;
+    color: #A0785A;
+    font-weight: 700;
+    margin: 1rem 0;
+}
+
+/* Pages légales */
+.legal-container,
+.privacy-container,
+.cgv-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background-color: #FFFFFF;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.cgv-content {
+    font-family: 'Nunito', sans-serif;
+    color: #3D3635;
+}
+
+.cgv-title {
+    font-size: 2.5em;
+    border-bottom: 2px solid #A0785A;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+.business-info {
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+.cgv-section {
+    margin-bottom: 40px;
+}
+
+.table-of-contents {
+    background-color: #FFF5EE;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 30px 0;
+}
+
+/* SEO Section */
+.seo-content {
+    background-color: #FFFFFF;
+    padding: 5rem 0;
+    border-top: 1px solid #E3C0A8;
+}
+
+.seo-text {
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+    padding: 0 1.5rem;
+}
+
+.seo-callout {
+    background: linear-gradient(to right, #FFF5EE, #FFFFFF);
+    padding: 3rem;
+    border-radius: 12px;
+    margin: 3rem 0;
+    text-align: center;
+    border: 1px solid #E3C0A8;
+    position: relative;
+}
+
+.locations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    .pricing-card-featured {
+        transform: none;
+    }
+
+    .prestation-hero-title {
+        font-size: 2.8rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .prestation-hero-title {
+        font-size: 2.2rem;
+    }
+
+    .prestation-hero-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .legal-container,
+    .privacy-container,
+    .cgv-container {
+        padding: 20px;
+    }
+
+    .cgv-title {
+        font-size: 2em;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .legal-container,
+    .privacy-container,
+    .cgv-container {
+        box-shadow: none;
+        padding: 0;
+    }
+
+    .table-of-contents {
+        display: none;
+    }
+}
