@@ -18,6 +18,12 @@
     align-items: center;
 }
 
+main {
+    padding-top: 80px; /* Hauteur du header */
+}
+
+
+
 /* Logo */
 .logo {
     width: 200px;
