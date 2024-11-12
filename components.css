@@ -51,6 +51,45 @@
     border-bottom-color: #3D3635;
 }
 
+/* Compléments pour les boutons */
+.hero-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.btn-large {
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    min-width: 250px;
+}
+
+/* Compléments pour les cards */
+.service-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+/* Complément pour les témoignages */
+.testimonial-author {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* Style pour le texte surligné */
+.highlight {
+    background: linear-gradient(to right, rgba(227, 192, 168, 0.2), transparent);
+    padding: 0.5rem 1rem;
+    border-left: 3px solid #A0785A;
+    font-weight: 500;
+}
+
 /* Cards */
 .service-card {
     background: #FFFFFF;
