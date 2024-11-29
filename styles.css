@@ -2493,3 +2493,126 @@ body {
     outline: none;
     border-color: #A0785A;
 }
+
+/* Style pour page A Propos */
+.about-hero {
+        background-color: #FFF5EE;
+        padding: 6rem 0;
+        text-align: center;
+    }
+
+    .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        margin: 4rem 0;
+    }
+
+    .about-image {
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .about-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .about-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .about-highlight {
+        color: #A0785A;
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+    }
+
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin: 4rem 0;
+    }
+
+    .value-card {
+        background-color: #FFFFFF;
+        padding: 2rem;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .value-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .value-icon {
+        color: #A0785A;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .value-title {
+        color: #3D3635;
+        font-family: 'Poiret One', cursive;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .certifications {
+        background-color: #FFF5EE;
+        padding: 4rem 0;
+        margin: 4rem 0;
+    }
+
+    .certification-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .certification-item {
+        text-align: center;
+    }
+
+    .certification-item img {
+        width: 120px;
+        height: 120px;
+        object-fit: contain;
+        margin-bottom: 1rem;
+    }
+
+    .cta-section {
+        text-align: center;
+        padding: 4rem 0;
+    }
+
+    @media (max-width: 991px) {
+        .about-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .values-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .certification-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 767px) {
+        .values-grid,
+        .certification-grid {
+            grid-template-columns: 1fr;
+        }
+    }
