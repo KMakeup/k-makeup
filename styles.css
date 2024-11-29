@@ -2199,3 +2199,121 @@ body {
         gap: 1rem;
     }
 }
+
+/* Styles spécifiques à la page Tarifs */
+    .price-hero {
+        background-color: var(--color-bg);
+        padding: 6rem 0;
+        text-align: center;
+    }
+
+    .price-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 4rem 0;
+    }
+
+    .price-category {
+        background: var(--color-white);
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+    .price-category:hover {
+        transform: translateY(-5px);
+    }
+
+    .price-header {
+        background-color: var(--color-medium);
+        color: var(--color-white);
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .price-header h2 {
+        color: var(--color-white);
+        margin: 0;
+        font-family: 'Poiret One', cursive;
+        font-size: 1.8rem;
+    }
+
+    .price-items {
+        padding: 2rem;
+    }
+
+    .price-item {
+        border-bottom: 1px solid var(--color-light);
+        padding: 1rem 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .price-item:last-child {
+        border-bottom: none;
+    }
+
+    .price-name {
+        flex-grow: 1;
+        padding-right: 1rem;
+    }
+
+    .price-value {
+        font-weight: 700;
+        color: var(--color-medium);
+        white-space: nowrap;
+    }
+
+    .price-description {
+        font-size: 0.9rem;
+        color: #666;
+        margin-top: 0.5rem;
+    }
+
+    .price-cta {
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .price-note {
+        background: var(--color-bg);
+        padding: 2rem;
+        border-radius: 8px;
+        margin: 4rem 0;
+    }
+
+    .price-note h3 {
+        color: var(--color-medium);
+        margin-bottom: 1rem;
+    }
+
+    .price-note ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .price-note li {
+        margin-bottom: 0.5rem;
+        position: relative;
+        padding-left: 1.5rem;
+    }
+
+    .price-note li::before {
+        content: "•";
+        color: var(--color-medium);
+        position: absolute;
+        left: 0;
+    }
+
+    @media (max-width: 768px) {
+        .price-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .price-header h2 {
+            font-size: 1.5rem;
+        }
+    }
