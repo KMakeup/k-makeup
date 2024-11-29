@@ -135,30 +135,33 @@ class SiteManager {
     }
 
     initPricingCards() {
-        const observer = utils.createObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                    observer.unobserve(entry.target);
+    const observer = utils.createObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                observer.unobserve(entry.target);
 
-                    // Animation du prix
-                    const priceElement = entry.target.querySelector('.price');
-                    if (priceElement) {
-                        const finalPrice = parseInt(priceElement.textContent);
-                        this.animateNumber(priceElement, finalPrice);
+                // Animation du prix seulement si c'est un nombre
+                const priceElement = entry.target.querySelector('.price');
+                if (priceElement) {
+                    const priceText = priceElement.textContent;
+                    const numericPrice = parseInt(priceText);
+                    if (!isNaN(numericPrice)) {
+                        this.animateNumber(priceElement, numericPrice);
                     }
                 }
-            });
+            }
         });
+    });
 
-        utils.selectAll('.pricing-card').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            observer.observe(card);
-        });
-    }
+    utils.selectAll('.pricing-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        observer.observe(card);
+    });
+}
 
     animateNumber(element, final, duration = 1000) {
         let start = 0;
