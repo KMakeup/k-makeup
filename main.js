@@ -347,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
             window.print();
         });
     });
-    // Animation des prix au scroll
+    // Code JS pour la page Tarifs
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -362,5 +362,38 @@ document.addEventListener('DOMContentLoaded', () => {
             category.style.opacity = '0';
             category.style.transition = 'all 0.5s ease-out';
             observer.observe(category);
+        });
+    // Code JS pour la page Contact
+    // Validation du formulaire
+        const form = document.getElementById('wf-form-contact');
+        
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validation téléphone
+            const phone = document.getElementById('phone').value;
+            const phoneRegex = /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4})$/;
+            
+            if (!phoneRegex.test(phone)) {
+                alert('Veuillez entrer un numéro de téléphone valide');
+                return;
+            }
+
+            // Si tout est valide, on soumet le formulaire
+            // Webflow gérera l'envoi
+            form.submit();
+        });
+
+        // Animation des champs au focus
+        const inputs = document.querySelectorAll('.form-input, .form-select, .form-textarea');
+        
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.style.transform = 'translateY(0)';
+            });
         });
 });
