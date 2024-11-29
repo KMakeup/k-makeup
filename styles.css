@@ -2458,3 +2458,38 @@ body {
             padding: 4rem 0 2rem;
         }
     }
+
+/* Correction du select */
+.form-select.w-select {
+    color: #3D3635;
+    background-color: #FFFFFF;
+    height: 45px; /* Ajustez selon vos besoins */
+    line-height: normal;
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: 16px; /* Pour correspondre aux autres inputs */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h10L5 6z' fill='%233D3635'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    padding-right: 40px;
+}
+
+/* Style de l'option par défaut */
+.form-select.w-select option:first-child {
+    color: #3D3635;
+}
+
+/* Styles des options */
+.form-select.w-select option {
+    color: #3D3635;
+    padding: 10px;
+}
+
+/* Suppression de l'outline par défaut au focus */
+.form-select.w-select:focus {
+    outline: none;
+    border-color: #A0785A;
+}
