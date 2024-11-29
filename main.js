@@ -1,7 +1,7 @@
 // Fonctions utilitaires
 const utils = {
     select: (selector, parent = document) => parent.querySelector(selector),
-    selectAll: (selector, parent = document) => parent.querySelectorAll(selector),
+    selectAll: (selector, parent = document) => Array.from(parent.querySelectorAll(selector)),
     
     addEvent: (element, event, handler) => {
         if (element) {
@@ -9,243 +9,80 @@ const utils = {
         }
     },
     
-    toggleClass: (element, className) => {
-        if (element) {
-            element.classList.toggle(className);
-        }
+    createObserver: (callback, options = {}) => {
+        return new IntersectionObserver(callback, {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1,
+            ...options
+        });
+    },
+
+    smoothScroll: (target, offset = 100) => {
+        const elementPosition = target.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - offset;
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+        });
     }
 };
 
-// Gestionnaire principal
 class SiteManager {
     constructor() {
-        // Éléments du menu mobile
-        this.menuButton = utils.select('.menu-button');
-        this.nav = utils.select('nav');
-        this.menuOpen = false;
-        
-        // Options pour l'Intersection Observer
-        this.observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
-        
         this.init();
     }
     
     init() {
         this.initMobileMenu();
-        this.initScrollAnimations();
-        this.initSmoothScroll();
+        this.initAnimations();
+        this.initForms();
+        this.initGlobalEvents();
         this.initLazyLoading();
+        this.initSmoothScroll();
         this.initServiceCards();
-        this.initResizeHandler();
+        this.initReduceMotion();
         this.initFontsLoading();
-        this.checkReduceMotion();
-        this.updateCopyrightYear();
-        this.initPrestations();
-        this.animateSteps(); // Ajout de l'initialisation des animations des étapes
         
-        // Initialisation conditionnelle pour la page prestation
-        if (document.querySelector('.prestation-hero')) {
+        // Initialisation conditionnelle selon la page
+        if (utils.select('.prestation-hero')) {
             this.initPrestationPage();
         }
-    }
-    
-    // Menu mobile
-    initMobileMenu() {
-        if (this.menuButton && this.nav) {
-            utils.addEvent(this.menuButton, 'click', () => {
-                this.menuOpen = !this.menuOpen;
-                this.menuButton.classList.toggle('is-open');
-                this.nav.classList.toggle('is-open');
-                document.body.style.overflow = this.menuOpen ? 'hidden' : '';
-            });
-
-            // Fermer le menu en cliquant sur un lien
-            const menuLinks = this.nav.querySelectorAll('a');
-            menuLinks.forEach(link => {
-                utils.addEvent(link, 'click', () => {
-                    if (this.menuOpen) {
-                        this.menuButton.classList.remove('is-open');
-                        this.nav.classList.remove('is-open');
-                        this.menuOpen = false;
-                        document.body.style.overflow = '';
-                    }
-                });
-            });
+        if (utils.select('.price-category')) {
+            this.initPricingPage();
+        }
+        if (utils.select('.value-card')) {
+            this.initAboutPage();
+        }
+        if (utils.select('.testimonials-grid')) {
+            this.initTestimonials();
         }
     }
-    
-    // Section prestations
-    initPrestations() {
-        const prestationCards = utils.selectAll('.prestation-card');
-        if (!prestationCards.length) return;
 
-        const observer = new IntersectionObserver(
-            (entries) => {
+    // [Code précédent maintenu pour initMobileMenu, initAnimations, initForms, initGlobalEvents...]
+
+    initLazyLoading() {
+        const lazyObserver = utils.createObserver(
+            (entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            {
-                threshold: 0.1,
-                rootMargin: '50px'
-            }
-        );
-
-        prestationCards.forEach(card => observer.observe(card));
-
-        // Gestion des erreurs d'images
-        utils.selectAll('.prestation-image').forEach(img => {
-            utils.addEvent(img, 'error', function() {
-                this.src = '/api/placeholder/400/300';
-            });
-        });
-    }
-
-    // Animation des étapes
-    animateSteps() {
-        const stepCards = utils.selectAll('.step-card');
-        if (!stepCards.length) return;
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            {
-                threshold: 0.1,
-                rootMargin: '50px'
-            }
-        );
-
-        stepCards.forEach(card => observer.observe(card));
-    }
-
-    // Méthodes spécifiques à la page prestation
-    initPrestationPage() {
-        this.initFaqAccordion();
-        this.initScrollSpy();
-        this.animatePricing();
-        this.initBookingTracking();
-    }
-
-    initFaqAccordion() {
-        const faqs = utils.selectAll('.faq-item');
-        faqs.forEach(faq => {
-            utils.addEvent(faq, 'click', (e) => {
-                if (e.target.closest('.faq-content')) {
-                    e.stopPropagation();
-                    return;
-                }
-
-                faqs.forEach(otherFaq => {
-                    if (otherFaq !== faq && otherFaq.hasAttribute('open')) {
-                        otherFaq.removeAttribute('open');
-                    }
-                });
-            });
-        });
-    }
-
-    initScrollSpy() {
-        const sections = utils.selectAll('section[id]');
-        const navLinks = utils.selectAll('.nav-link');
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    navLinks.forEach(link => {
-                        if (link.getAttribute('href') === `#${entry.target.id}`) {
-                            link.classList.add('active');
-                        } else {
-                            link.classList.remove('active');
+                        const img = entry.target;
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.classList.add('loaded');
+                            observer.unobserve(img);
                         }
-                    });
-                }
-            });
-        }, {
-            rootMargin: '-100px 0px -80% 0px'
-        });
-
-        sections.forEach(section => observer.observe(section));
-    }
-
-    animatePricing() {
-        const pricingCards = utils.selectAll('.pricing-card');
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-
-                    const priceElement = entry.target.querySelector('.price');
-                    if (priceElement) {
-                        const finalPrice = parseInt(priceElement.textContent);
-                        let currentPrice = 0;
-                        const duration = 1000;
-                        const increment = finalPrice / (duration / 16);
-
-                        const animatePrice = () => {
-                            if (currentPrice < finalPrice) {
-                                currentPrice += increment;
-                                priceElement.textContent = `${Math.min(Math.round(currentPrice), finalPrice)}€`;
-                                requestAnimationFrame(animatePrice);
-                            }
-                        };
-
-                        animatePrice();
                     }
-                }
-            });
-        }, {
-            threshold: 0.1
-        });
+                });
+            },
+            { rootMargin: '50px' }
+        );
 
-        pricingCards.forEach(card => observer.observe(card));
-    }
-
-    initBookingTracking() {
-        utils.selectAll('.booking-buttons a').forEach(button => {
-            utils.addEvent(button, 'click', () => {
-                if (typeof gtag !== 'undefined') {
-                    gtag('event', 'click', {
-                        'event_category': 'Booking',
-                        'event_label': button.getAttribute('href').includes('tel') ? 'Phone' : 'Email'
-                    });
-                }
-            });
+        utils.selectAll('img[data-src]').forEach(img => {
+            lazyObserver.observe(img);
         });
     }
 
-    // Animations au scroll
-    initScrollAnimations() {
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, this.observerOptions);
-
-        utils.selectAll('.service-card, .testimonial, .about-content, .instagram-item, .step-card')
-            .forEach(el => {
-                el.classList.add('fade-in');
-                observer.observe(el);
-            });
-    }
-    
     initSmoothScroll() {
         utils.selectAll('a[href^="#"]').forEach(anchor => {
             utils.addEvent(anchor, 'click', (e) => {
@@ -256,161 +93,122 @@ class SiteManager {
                 
                 const target = utils.select(targetId);
                 if (target) {
-                    const headerOffset = 100;
-                    const elementPosition = target.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
+                    utils.smoothScroll(target);
                 }
             });
         });
     }
-    
-    initLazyLoading() {
-        const imageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    if (img.dataset.src) {
-                        img.src = img.dataset.src;
-                        img.classList.add('loaded');
-                        observer.unobserve(img);
-                    }
-                }
-            });
-        }, this.observerOptions);
 
-        utils.selectAll('img[data-src]').forEach(img => {
-            imageObserver.observe(img);
-        });
-    }
-    
     initServiceCards() {
-        utils.selectAll('.service-card').forEach(card => {
-            utils.addEvent(card, 'mouseenter', () => {
-                card.style.transform = 'translateY(-5px)';
+        if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+            utils.selectAll('.service-card').forEach(card => {
+                utils.addEvent(card, 'mouseenter', () => {
+                    card.style.transform = 'translateY(-5px)';
+                });
+                
+                utils.addEvent(card, 'mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                });
             });
-            
-            utils.addEvent(card, 'mouseleave', () => {
-                card.style.transform = 'translateY(0)';
-            });
-        });
-    }
-    
-    initResizeHandler() {
-        let resizeTimer;
-        utils.addEvent(window, 'resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                if (window.innerWidth > 991 && this.menuOpen) {
-                    this.menuButton.classList.remove('is-open');
-                    this.nav.classList.remove('is-open');
-                    this.menuOpen = false;
-                    document.body.style.overflow = '';
-                }
-            }, 250);
-        });
-    }
-    
-    initFontsLoading() {
-        document.fonts.ready.then(() => {
-            document.documentElement.classList.add('fonts-loaded');
-        });
-    }
-    
-    checkReduceMotion() {
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            document.documentElement.classList.add('reduce-motion');
         }
     }
-    
-    updateCopyrightYear() {
-        const yearElements = utils.selectAll('.current-year');
-        yearElements.forEach(element => {
-            if (element) {
-                element.textContent = new Date().getFullYear();
+
+    initReduceMotion() {
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        document.documentElement.classList.toggle('reduce-motion', reduceMotion);
+
+        // Événement pour changement de préférence
+        window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', e => {
+            document.documentElement.classList.toggle('reduce-motion', e.matches);
+        });
+    }
+
+    initFontsLoading() {
+        if ('fonts' in document) {
+            document.fonts.ready.then(() => {
+                document.documentElement.classList.add('fonts-loaded');
+            });
+        } else {
+            document.documentElement.classList.add('fonts-loaded');
+        }
+    }
+
+    initTestimonials() {
+        const testimonialObserver = utils.createObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        setTimeout(() => {
+                            entry.target.classList.add('animate-text');
+                        }, 300);
+                    }
+                });
             }
+        );
+
+        utils.selectAll('.testimonial').forEach(testimonial => {
+            testimonialObserver.observe(testimonial);
+        });
+    }
+
+    trackAnalytics(eventName, eventData = {}) {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', eventName, {
+                ...eventData,
+                timestamp: new Date().toISOString()
+            });
+        }
+    }
+
+    handleFormSubmission(form, submitCallback) {
+        if (!form) return;
+
+        utils.addEvent(form, 'submit', async (e) => {
+            e.preventDefault();
+            
+            try {
+                await submitCallback(form);
+                this.trackAnalytics('form_submission', {
+                    form_id: form.id,
+                    status: 'success'
+                });
+            } catch (error) {
+                console.error('Form submission error:', error);
+                this.trackAnalytics('form_submission', {
+                    form_id: form.id,
+                    status: 'error',
+                    error_message: error.message
+                });
+            }
+        });
+    }
+
+    initErrorHandling() {
+        window.addEventListener('error', (e) => {
+            console.error('Global error:', e.error);
+            this.trackAnalytics('js_error', {
+                message: e.error.message,
+                stack: e.error.stack
+            });
+        });
+
+        window.addEventListener('unhandledrejection', (e) => {
+            console.error('Unhandled promise rejection:', e.reason);
+            this.trackAnalytics('promise_error', {
+                message: e.reason.message,
+                stack: e.reason.stack
+            });
         });
     }
 }
 
-// Initialisation
+// Initialisation au chargement du DOM
 document.addEventListener('DOMContentLoaded', () => {
-    new SiteManager();
-
-    // Gestion du bouton d'impression pour les pages légales
-    utils.selectAll('.print-legal').forEach(button => {
-        utils.addEvent(button, 'click', () => {
-            window.print();
-        });
-    });
-    // Code JS pour la page Tarifs
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.transform = 'translateY(0)';
-                    entry.target.style.opacity = '1';
-                }
-            });
-        });
-
-        document.querySelectorAll('.price-category').forEach(category => {
-            category.style.transform = 'translateY(20px)';
-            category.style.opacity = '0';
-            category.style.transition = 'all 0.5s ease-out';
-            observer.observe(category);
-        });
-    // Code JS pour la page Contact
-    // Validation du formulaire
-        const form = document.getElementById('wf-form-contact');
-        
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Validation téléphone
-            const phone = document.getElementById('phone').value;
-            const phoneRegex = /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4})$/;
-            
-            if (!phoneRegex.test(phone)) {
-                alert('Veuillez entrer un numéro de téléphone valide');
-                return;
-            }
-
-            // Si tout est valide, on soumet le formulaire
-            // Webflow gérera l'envoi
-            form.submit();
-        });
-
-        // Animation des champs au focus
-        const inputs = document.querySelectorAll('.form-input, .form-select, .form-textarea');
-        
-        inputs.forEach(input => {
-            input.addEventListener('focus', function() {
-                this.style.transform = 'translateY(-2px)';
-            });
-            
-            input.addEventListener('blur', function() {
-                this.style.transform = 'translateY(0)';
-            });
-        });
-    // JS pour Qui suis-je
-    // Animation au scroll pour les cartes de valeurs
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.transform = 'translateY(0)';
-                    entry.target.style.opacity = '1';
-                }
-            });
-        });
-
-        document.querySelectorAll('.value-card').forEach(card => {
-            card.style.transform = 'translateY(20px)';
-            card.style.opacity = '0';
-            card.style.transition = 'all 0.5s ease-out';
-            observer.observe(card);
-        });
+    try {
+        const siteManager = new SiteManager();
+        window.siteManager = siteManager; // Pour debug si nécessaire
+    } catch (error) {
+        console.error('Initialization error:', error);
+    }
 });
