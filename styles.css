@@ -2463,7 +2463,6 @@ body {
 .form-select.w-select {
     color: #3D3635;
     background-color: #FFFFFF;
-    height: 45px; /* Ajustez selon vos besoins */
     line-height: normal;
     padding-top: 0;
     padding-bottom: 0;
@@ -2475,6 +2474,7 @@ body {
     background-repeat: no-repeat;
     background-position: right 15px center;
     padding-right: 40px;
+    font-size:14px;
 }
 
 /* Style de l'option par défaut */
