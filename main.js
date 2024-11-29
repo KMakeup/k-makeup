@@ -396,21 +396,4 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.style.transform = 'translateY(0)';
             });
         });
-    // JS pour Qui suis-je
-    // Animation au scroll pour les cartes de valeurs
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.transform = 'translateY(0)';
-                    entry.target.style.opacity = '1';
-                }
-            });
-        });
-
-        document.querySelectorAll('.value-card').forEach(card => {
-            card.style.transform = 'translateY(20px)';
-            card.style.opacity = '0';
-            card.style.transition = 'all 0.5s ease-out';
-            observer.observe(card);
-        });
 });
