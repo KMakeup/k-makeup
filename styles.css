@@ -2522,11 +2522,10 @@ body {
         object-fit: cover;
     }
 
-.about-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
+.qui-about-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
     .about-highlight {
