@@ -16,189 +16,205 @@ const utils = {
             threshold: 0.1,
             ...options
         });
-    },
-
-    smoothScroll: (target, offset = 100) => {
-        const elementPosition = target.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - offset;
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-        });
     }
 };
 
 class SiteManager {
     constructor() {
+        // Initialisation des propriétés de classe
+        this.menuButton = utils.select('.menu-button');
+        this.nav = utils.select('nav');
+        this.menuOpen = false;
+        
         this.init();
     }
     
     init() {
+        // Fonctionnalités de base
         this.initMobileMenu();
         this.initAnimations();
-        this.initForms();
         this.initGlobalEvents();
-        this.initLazyLoading();
-        this.initSmoothScroll();
-        this.initServiceCards();
-        this.initReduceMotion();
-        this.initFontsLoading();
+        this.updateCopyrightYear();
         
-        // Initialisation conditionnelle selon la page
+        // Fonctionnalités conditionnelles selon les éléments présents
+        if (utils.select('#wf-form-contact')) {
+            this.initForms();
+        }
+        
+        if (utils.select('img[data-src]')) {
+            this.initLazyLoading();
+        }
+        
+        if (utils.select('a[href^="#"]')) {
+            this.initSmoothScroll();
+        }
+        
+        if (utils.select('.service-card')) {
+            this.initServiceCards();
+        }
+        
+        // Pages spécifiques
         if (utils.select('.prestation-hero')) {
             this.initPrestationPage();
         }
+        
         if (utils.select('.price-category')) {
             this.initPricingPage();
         }
-        if (utils.select('.value-card')) {
-            this.initAboutPage();
-        }
+        
         if (utils.select('.testimonials-grid')) {
             this.initTestimonials();
         }
     }
 
-    // [Code précédent maintenu pour initMobileMenu, initAnimations, initForms, initGlobalEvents...]
+    initMobileMenu() {
+        if (!this.menuButton || !this.nav) return;
 
-    initLazyLoading() {
-        const lazyObserver = utils.createObserver(
-            (entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        if (img.dataset.src) {
-                            img.src = img.dataset.src;
-                            img.classList.add('loaded');
-                            observer.unobserve(img);
-                        }
-                    }
-                });
-            },
-            { rootMargin: '50px' }
-        );
-
-        utils.selectAll('img[data-src]').forEach(img => {
-            lazyObserver.observe(img);
+        utils.addEvent(this.menuButton, 'click', () => {
+            this.menuOpen = !this.menuOpen;
+            this.menuButton.classList.toggle('is-open', this.menuOpen);
+            this.nav.classList.toggle('is-open', this.menuOpen);
+            document.body.style.overflow = this.menuOpen ? 'hidden' : '';
         });
-    }
 
-    initSmoothScroll() {
-        utils.selectAll('a[href^="#"]').forEach(anchor => {
-            utils.addEvent(anchor, 'click', (e) => {
-                e.preventDefault();
-                const targetId = anchor.getAttribute('href');
-                
-                if (targetId === '#') return;
-                
-                const target = utils.select(targetId);
-                if (target) {
-                    utils.smoothScroll(target);
+        // Fermeture sur clic des liens
+        utils.selectAll('a', this.nav).forEach(link => {
+            utils.addEvent(link, 'click', () => {
+                if (this.menuOpen) {
+                    this.menuButton.classList.remove('is-open');
+                    this.nav.classList.remove('is-open');
+                    this.menuOpen = false;
+                    document.body.style.overflow = '';
                 }
             });
         });
     }
 
-    initServiceCards() {
-        if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
-            utils.selectAll('.service-card').forEach(card => {
-                utils.addEvent(card, 'mouseenter', () => {
-                    card.style.transform = 'translateY(-5px)';
-                });
-                
-                utils.addEvent(card, 'mouseleave', () => {
-                    card.style.transform = 'translateY(0)';
-                });
+    initAnimations() {
+        const observer = utils.createObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
             });
-        }
+        });
+
+        utils.selectAll('.fade-in, .service-card, .testimonial, .about-content, .instagram-item')
+            .forEach(el => observer.observe(el));
     }
 
-    initReduceMotion() {
-        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        document.documentElement.classList.toggle('reduce-motion', reduceMotion);
-
-        // Événement pour changement de préférence
-        window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', e => {
-            document.documentElement.classList.toggle('reduce-motion', e.matches);
+    initGlobalEvents() {
+        // Gestion du redimensionnement
+        let resizeTimer;
+        utils.addEvent(window, 'resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                if (window.innerWidth > 991 && this.menuOpen) {
+                    this.menuButton?.classList.remove('is-open');
+                    this.nav?.classList.remove('is-open');
+                    this.menuOpen = false;
+                    document.body.style.overflow = '';
+                }
+            }, 250);
         });
     }
 
-    initFontsLoading() {
-        if ('fonts' in document) {
-            document.fonts.ready.then(() => {
-                document.documentElement.classList.add('fonts-loaded');
+    initForms() {
+        const form = utils.select('#wf-form-contact');
+        if (!form) return;
+
+        utils.addEvent(form, 'submit', e => {
+            e.preventDefault();
+            
+            // Validation basique
+            const phone = utils.select('#phone')?.value;
+            if (phone && !/^(?:(?:\+|00)33|0)[1-9](?:[\s.-]?\d{2}){4}$/.test(phone)) {
+                alert('Veuillez entrer un numéro de téléphone valide');
+                return;
+            }
+
+            form.submit();
+        });
+    }
+
+    initLazyLoading() {
+        const observer = utils.createObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.classList.add('loaded');
+                        observer.unobserve(img);
+                    }
+                }
             });
-        } else {
-            document.documentElement.classList.add('fonts-loaded');
-        }
+        });
+
+        utils.selectAll('img[data-src]').forEach(img => observer.observe(img));
+    }
+
+    initServiceCards() {
+        utils.selectAll('.service-card').forEach(card => {
+            utils.addEvent(card, 'mouseenter', () => {
+                if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    card.style.transform = 'translateY(-5px)';
+                }
+            });
+            
+            utils.addEvent(card, 'mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    }
+
+    initPrestationPage() {
+        // FAQ Accordéon
+        utils.selectAll('.faq-item').forEach(item => {
+            utils.addEvent(item, 'click', e => {
+                if (!e.target.closest('.faq-content')) {
+                    utils.selectAll('.faq-item[open]').forEach(opened => {
+                        if (opened !== item) opened.removeAttribute('open');
+                    });
+                }
+            });
+        });
+    }
+
+    initPricingPage() {
+        utils.selectAll('.price-category').forEach(category => {
+            category.style.opacity = '0';
+            category.style.transform = 'translateY(20px)';
+        });
+
+        const observer = utils.createObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        utils.selectAll('.price-category').forEach(category => observer.observe(category));
     }
 
     initTestimonials() {
-        const testimonialObserver = utils.createObserver(
-            (entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        setTimeout(() => {
-                            entry.target.classList.add('animate-text');
-                        }, 300);
-                    }
-                });
-            }
-        );
-
-        utils.selectAll('.testimonial').forEach(testimonial => {
-            testimonialObserver.observe(testimonial);
-        });
-    }
-
-    trackAnalytics(eventName, eventData = {}) {
-        if (typeof gtag !== 'undefined') {
-            gtag('event', eventName, {
-                ...eventData,
-                timestamp: new Date().toISOString()
-            });
-        }
-    }
-
-    handleFormSubmission(form, submitCallback) {
-        if (!form) return;
-
-        utils.addEvent(form, 'submit', async (e) => {
-            e.preventDefault();
-            
-            try {
-                await submitCallback(form);
-                this.trackAnalytics('form_submission', {
-                    form_id: form.id,
-                    status: 'success'
-                });
-            } catch (error) {
-                console.error('Form submission error:', error);
-                this.trackAnalytics('form_submission', {
-                    form_id: form.id,
-                    status: 'error',
-                    error_message: error.message
-                });
-            }
-        });
-    }
-
-    initErrorHandling() {
-        window.addEventListener('error', (e) => {
-            console.error('Global error:', e.error);
-            this.trackAnalytics('js_error', {
-                message: e.error.message,
-                stack: e.error.stack
+        const observer = utils.createObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
             });
         });
 
-        window.addEventListener('unhandledrejection', (e) => {
-            console.error('Unhandled promise rejection:', e.reason);
-            this.trackAnalytics('promise_error', {
-                message: e.reason.message,
-                stack: e.reason.stack
-            });
+        utils.selectAll('.testimonial').forEach(testimonial => observer.observe(testimonial));
+    }
+
+    updateCopyrightYear() {
+        utils.selectAll('.current-year').forEach(el => {
+            if (el) el.textContent = new Date().getFullYear();
         });
     }
 }
@@ -206,9 +222,8 @@ class SiteManager {
 // Initialisation au chargement du DOM
 document.addEventListener('DOMContentLoaded', () => {
     try {
-        const siteManager = new SiteManager();
-        window.siteManager = siteManager; // Pour debug si nécessaire
+        window.siteManager = new SiteManager();
     } catch (error) {
-        console.error('Initialization error:', error);
+        console.error('Erreur d\'initialisation:', error);
     }
 });
