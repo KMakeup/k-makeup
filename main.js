@@ -347,4 +347,20 @@ document.addEventListener('DOMContentLoaded', () => {
             window.print();
         });
     });
+    // Animation des prix au scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.style.opacity = '1';
+                }
+            });
+        });
+
+        document.querySelectorAll('.price-category').forEach(category => {
+            category.style.transform = 'translateY(20px)';
+            category.style.opacity = '0';
+            category.style.transition = 'all 0.5s ease-out';
+            observer.observe(category);
+        });
 });
