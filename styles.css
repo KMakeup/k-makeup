@@ -2202,7 +2202,7 @@ body {
 
 /* Styles spécifiques à la page Tarifs */
     .price-hero {
-        background-color: var(--color-bg);
+        background-color: #FFF5EE;
         padding: 6rem 0;
         text-align: center;
     }
@@ -2215,7 +2215,7 @@ body {
     }
 
     .price-category {
-        background: var(--color-white);
+        background: #FFFFFF;
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         overflow: hidden;
@@ -2227,14 +2227,14 @@ body {
     }
 
     .price-header {
-        background-color: var(--color-medium);
-        color: var(--color-white);
+        background-color: #A0785A;
+        color: #FFFFFF;
         padding: 2rem;
         text-align: center;
     }
 
     .price-header h2 {
-        color: var(--color-white);
+        color: #FFFFFF;
         margin: 0;
         font-family: 'Poiret One', cursive;
         font-size: 1.8rem;
@@ -2245,7 +2245,7 @@ body {
     }
 
     .price-item {
-        border-bottom: 1px solid var(--color-light);
+        border-bottom: 1px solid #E3C0A8;
         padding: 1rem 0;
         display: flex;
         justify-content: space-between;
@@ -2263,13 +2263,13 @@ body {
 
     .price-value {
         font-weight: 700;
-        color: var(--color-medium);
+        color: #A0785A;
         white-space: nowrap;
     }
 
     .price-description {
         font-size: 0.9rem;
-        color: #666;
+        color: #666666;
         margin-top: 0.5rem;
     }
 
@@ -2279,14 +2279,14 @@ body {
     }
 
     .price-note {
-        background: var(--color-bg);
+        background: #FFF5EE;
         padding: 2rem;
         border-radius: 8px;
         margin: 4rem 0;
     }
 
     .price-note h3 {
-        color: var(--color-medium);
+        color: #A0785A;
         margin-bottom: 1rem;
     }
 
@@ -2303,7 +2303,7 @@ body {
 
     .price-note li::before {
         content: "•";
-        color: var(--color-medium);
+        color: #A0785A;
         position: absolute;
         left: 0;
     }
