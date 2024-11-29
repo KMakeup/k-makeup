@@ -2522,11 +2522,12 @@ body {
         object-fit: cover;
     }
 
-    .about-content {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
 
     .about-highlight {
         color: #A0785A;
