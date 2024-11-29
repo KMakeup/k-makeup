@@ -2155,15 +2155,6 @@ body {
     }
 }
 
-AT
-Ton CSS était bien, si ce n'est qu'il n'y a pas de variable... Il me faut les couleurs en hexa stp
-
-
-Ah oui bien sûr ! Voici le CSS corrigé avec les codes hexadécimaux de notre charte graphique à la place des variables :
-
-css
-
-Copy
 .occasions-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
